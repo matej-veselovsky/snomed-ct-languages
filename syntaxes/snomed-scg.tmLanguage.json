@@ -1,0 +1,50 @@
+{
+  "name": "SNOMED CT Compositional Grammar",
+  "scopeName": "source.snomed-scg",
+  "patterns": [
+    {
+      "name": "keyword.operator.definition.snomed-scg",
+      "match": "===|<<<"
+    },
+    {
+      "name": "string.quoted.double.snomed-scg",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.snomed-scg",
+          "match": "\\\\[\\\\\"]"
+        }
+      ]
+    },
+    {
+      "name": "string.quoted.other.snomed-scg",
+      "begin": "\\|",
+      "end": "\\||$"
+    },
+    {
+      "name": "constant.numeric.concrete.snomed-scg",
+      "match": "#[+-]?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?"
+    },
+    {
+      "name": "constant.language.boolean.snomed-scg",
+      "match": "(?i)\\b(?:true|false)\\b"
+    },
+    {
+      "name": "constant.numeric.sctid.snomed-scg",
+      "match": "(?<!\\d)[1-9]\\d{5,17}(?!\\d)"
+    },
+    {
+      "name": "keyword.operator.assignment.snomed-scg",
+      "match": "="
+    },
+    {
+      "name": "keyword.operator.snomed-scg",
+      "match": "[+:,]"
+    },
+    {
+      "name": "punctuation.section.snomed-scg",
+      "match": "[{}()]"
+    }
+  ]
+}

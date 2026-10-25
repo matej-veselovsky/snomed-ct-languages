@@ -1,0 +1,50 @@
+{
+  "name": "snomed-ct-languages",
+  "displayName": "SNOMED CT Languages",
+  "description": "Snomed CT Languages for VS Code.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.140.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "snomed-scg",
+        "aliases": [
+          "SNOMED CT Compositional Grammar",
+          "snomed-scg"
+        ],
+        "extensions": [
+          "scg"
+        ],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "snomed-etl",
+        "aliases": [
+          "SNOMED CT Expression Template Syntax",
+          "snomed-etl"
+        ],
+        "extensions": [
+          "etl"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "snomed-scg",
+        "scopeName": "source.snomed-scg",
+        "path": "./syntaxes/snomed-scg.tmLanguage.json"
+      },
+      {
+        "language": "snomed-etl",
+        "scopeName": "source.snomed-etl",
+        "path": "./syntaxes/snomed-etl.tmLanguage.json"
+      }
+    ]
+  }
+}

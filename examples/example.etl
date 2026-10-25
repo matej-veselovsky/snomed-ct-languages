@@ -1,0 +1,23 @@
+[[1..1]] 404684003 | Clinical finding (finding) | : {
+	[[1..1]] 363714003 | Interprets (attribute) | = (
+		[[1..1]] 363787002 | Observable entity (observable entity) | : {
+			[[1..1]] 704319004 | Inheres in (attribute) | = [[+id (<< 105590001 | Substance (substance) | OR << 123037004 | Body structure (body structure) | OR << 123038009 | Specimen (specimen) | OR << 125676002 | Person (person) | OR << 260787004 | Physical object (physical object) | OR << 373873005 | Pharmaceutical / biologic product (product) | OR << 410607006 | Organism (organism) | OR << 419891008 | Record artifact (record artifact) |) @InheresIn]],
+			[[1..1]] 370130000 | Property (attribute) | = [[+id (<< 118598001 | Property (qualifier value) |) @Property]],
+			[[1..1]] 246501002 | Technique (attribute) | = [[+id (<< 254291000 | Staging and scales (staging scale) | OR << 272394005 | Technique (qualifier value) |) @Technique]],
+			[[1..1]] 370132008 | Scale type (attribute) | = [[+id (<< 117364006 | Narrative value (qualifier value)|  OR << 117444000 | Text value (qualifier value) | OR << 26716007 | Qualitative value (qualifier value) | OR < 398195001 | Measurement scales (qualifier value) |) @ScaleType]],
+			[[1..1]] 370134009 | Time aspect (attribute) | = [[+id (<< 7389001 | Time frame (qualifier value) |) @TimeAspect]],
+			[[1..1]] 704327008 | Direct site (attribute) | = (
+				[[1..1]] 123038009 | Specimen (specimen) | : {
+					[[0..1]] 118171006 | Specimen procedure (attribute) | = [[+id (<< 71388002 | Procedure (procedure) |) @SpecimenProcedure]] : {
+						[[0..1]] 424226004 | Using device (attribute) | = [[+id (<< 49062001 | Device (physical object) |) @SpecimenProcedureUsingDevice]]
+					},
+					[[0..1]] 118168003 | Specimen source morphology (attribute) | = [[+id (<< 49755003 | Morphologically abnormal structure (morphologic abnormality) |) @SpecimenSourceMorphology]],
+					[[0..1]] 118169006 | Specimen source topography (attribute) | = [[+id (<< 442083009 | Anatomical or acquired body structure (body structure) |) @SpecimenSourceTopography]],
+					[[0..1]] 370133003 | Specimen substance (attribute) | = [[+id (<< 105590001 | Substance (substance) | OR << 260787004 | Physical object (physical object) | OR << 373873005 | Pharmaceutical / biologic product (product) |) @SpecimenSubstance]],
+					[[0..1]] 118170007 | Specimen source identity (attribute) | = [[+id (<< 125676002 | Person (person) | OR << 133928008 | Community (social concept) | OR << 260787004 | Physical object (physical object) | OR << 276339004 | Environment (environment) | OR << 35359004 | Family (social concept) |) @SpecimenSourceIdentity]],
+				}
+			)
+		}
+	),
+	[[1..1]] 363713009 | Has interpretation (attribute) | = [[+id (<< 260245000 | Finding value (qualifier value) |) @HasInterpretation]]
+}

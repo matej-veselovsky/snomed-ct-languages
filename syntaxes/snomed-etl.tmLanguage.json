@@ -1,0 +1,880 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "SNOMED CT Expression Template Language",
+  "scopeName": "source.snomed-etl",
+  "patterns": [
+    {
+      "include": "#core"
+    }
+  ],
+  "repository": {
+    "core": {
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#replacement-slot"
+        },
+        {
+          "include": "#information-slot"
+        },
+        {
+          "include": "#term"
+        },
+        {
+          "include": "#string"
+        },
+        {
+          "include": "#sctid"
+        },
+        {
+          "include": "#numeric-value"
+        },
+        {
+          "include": "#definition-status"
+        },
+        {
+          "include": "#attribute-group"
+        },
+        {
+          "include": "#subexpression-group"
+        },
+        {
+          "include": "#core-punctuation"
+        }
+      ]
+    },
+    "comment": {
+      "patterns": [
+        {
+          "name": "comment.block.snomed-etl",
+          "begin": "/\\*",
+          "end": "\\*/",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.begin.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.end.snomed-etl"
+            }
+          },
+          "patterns": []
+        }
+      ]
+    },
+    "string": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.snomed-etl",
+          "begin": "\"",
+          "end": "\"",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.snomed-etl"
+            }
+          },
+          "patterns": [
+            {
+              "match": "\\\\[\"\\\\]",
+              "name": "constant.character.escape.snomed-etl"
+            },
+            {
+              "match": "\\\\(?![\"\\\\])",
+              "name": "invalid.illegal.escape.snomed-etl"
+            }
+          ]
+        }
+      ]
+    },
+    "term": {
+      "patterns": [
+        {
+          "name": "string.unquoted.term.snomed-etl",
+          "begin": "\\|",
+          "end": "\\|",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.term.begin.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.term.end.snomed-etl"
+            }
+          },
+          "patterns": []
+        }
+      ]
+    },
+    "sctid": {
+      "patterns": [
+        {
+          "match": "(?<![\\w])[1-9][0-9]{5,17}(?![\\w])",
+          "name": "constant.numeric.sctid.snomed-etl"
+        }
+      ]
+    },
+    "numeric-value": {
+      "patterns": [
+        {
+          "match": "(?<![\\w#])(#)([+-]?)(0|[1-9][0-9]*)(\\.[0-9]+)?(?![\\w])",
+          "name": "meta.numeric-value.snomed-etl",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.numeric.snomed-etl"
+            },
+            "2": {
+              "name": "keyword.operator.arithmetic.snomed-etl"
+            },
+            "3": {
+              "name": "constant.numeric.snomed-etl"
+            },
+            "4": {
+              "name": "constant.numeric.snomed-etl"
+            }
+          }
+        }
+      ]
+    },
+    "definition-status": {
+      "patterns": [
+        {
+          "match": "===|<<<",
+          "name": "keyword.operator.definition-status.snomed-etl"
+        }
+      ]
+    },
+    "attribute-group": {
+      "patterns": [
+        {
+          "name": "meta.attribute-group.snomed-etl",
+          "begin": "\\{",
+          "end": "\\}",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.section.group.begin.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.group.end.snomed-etl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#core"
+            }
+          ]
+        }
+      ]
+    },
+    "subexpression-group": {
+      "patterns": [
+        {
+          "name": "meta.subexpression.snomed-etl",
+          "begin": "\\(",
+          "end": "\\)",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.section.parens.begin.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.parens.end.snomed-etl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#core"
+            }
+          ]
+        }
+      ]
+    },
+    "core-punctuation": {
+      "patterns": [
+        {
+          "match": ":",
+          "name": "punctuation.separator.refinement.snomed-etl"
+        },
+        {
+          "match": "\\+",
+          "name": "keyword.operator.focus-union.snomed-etl"
+        },
+        {
+          "match": "=",
+          "name": "keyword.operator.assignment.snomed-etl"
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.attribute.snomed-etl"
+        }
+      ]
+    },
+    "information-cardinality": {
+      "patterns": [
+        {
+          "match": "(?<![\\d])((?:0|[1-9][0-9]*))\\s*(\\.\\.)\\s*(\\*|(?:0|[1-9][0-9]*))(?![\\d])",
+          "name": "meta.cardinality.snomed-etl",
+          "captures": {
+            "1": {
+              "name": "constant.numeric.cardinality.minimum.snomed-etl"
+            },
+            "2": {
+              "name": "keyword.operator.range.snomed-etl"
+            },
+            "3": {
+              "name": "constant.numeric.cardinality.maximum.snomed-etl"
+            }
+          }
+        }
+      ]
+    },
+    "slot-name": {
+      "patterns": [
+        {
+          "name": "meta.slot-name.snomed-etl",
+          "begin": "(@)(\")",
+          "end": "\"",
+          "contentName": "string.quoted.double.slot-name.snomed-etl",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.slot-name.snomed-etl"
+            },
+            "2": {
+              "name": "punctuation.definition.string.begin.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.snomed-etl"
+            }
+          },
+          "patterns": [
+            {
+              "match": "\\\\[\"\\\\]",
+              "name": "constant.character.escape.snomed-etl"
+            },
+            {
+              "match": "\\\\(?![\"\\\\])",
+              "name": "invalid.illegal.escape.snomed-etl"
+            }
+          ]
+        },
+        {
+          "match": "(@)([^\\s\"\\x27@\\[\\]]*)",
+          "name": "meta.slot-name.snomed-etl",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.slot-name.snomed-etl"
+            },
+            "2": {
+              "name": "variable.other.slot-name.snomed-etl"
+            }
+          }
+        }
+      ]
+    },
+    "information-slot": {
+      "patterns": [
+        {
+          "name": "meta.template.information.snomed-etl",
+          "begin": "(\\[\\[)(?!\\s*\\+)",
+          "end": "\\]\\]",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.template.begin.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.template.end.snomed-etl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#information-cardinality"
+            },
+            {
+              "include": "#slot-name"
+            }
+          ]
+        }
+      ]
+    },
+    "expression-slot": {
+      "patterns": [
+        {
+          "name": "meta.template.replacement.expression.snomed-etl",
+          "begin": "(\\[\\[)\\s*(\\+)\\s*(id|scg)(?![A-Za-z0-9_])",
+          "end": "\\]\\]",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.template.begin.snomed-etl"
+            },
+            "2": {
+              "name": "keyword.operator.template-replacement.snomed-etl"
+            },
+            "3": {
+              "name": "storage.type.template-slot.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.template.end.snomed-etl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#expression-constraint"
+            },
+            {
+              "include": "#slot-name"
+            }
+          ]
+        }
+      ]
+    },
+    "token-slot": {
+      "patterns": [
+        {
+          "name": "meta.template.replacement.token.snomed-etl",
+          "begin": "(\\[\\[)\\s*(\\+)\\s*(tok)(?![A-Za-z0-9_])",
+          "end": "\\]\\]",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.template.begin.snomed-etl"
+            },
+            "2": {
+              "name": "keyword.operator.template-replacement.snomed-etl"
+            },
+            "3": {
+              "name": "storage.type.template-slot.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.template.end.snomed-etl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#token-constraint"
+            },
+            {
+              "include": "#slot-name"
+            }
+          ]
+        }
+      ]
+    },
+    "string-slot": {
+      "patterns": [
+        {
+          "name": "meta.template.replacement.string.snomed-etl",
+          "begin": "(\\[\\[)\\s*(\\+)\\s*(str)(?![A-Za-z0-9_])",
+          "end": "\\]\\]",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.template.begin.snomed-etl"
+            },
+            "2": {
+              "name": "keyword.operator.template-replacement.snomed-etl"
+            },
+            "3": {
+              "name": "storage.type.template-slot.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.template.end.snomed-etl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#string-constraint"
+            },
+            {
+              "include": "#slot-name"
+            }
+          ]
+        }
+      ]
+    },
+    "integer-slot": {
+      "patterns": [
+        {
+          "name": "meta.template.replacement.integer.snomed-etl",
+          "begin": "(\\[\\[)\\s*(\\+)\\s*(int)(?![A-Za-z0-9_])",
+          "end": "\\]\\]",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.template.begin.snomed-etl"
+            },
+            "2": {
+              "name": "keyword.operator.template-replacement.snomed-etl"
+            },
+            "3": {
+              "name": "storage.type.template-slot.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.template.end.snomed-etl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#number-constraint"
+            },
+            {
+              "include": "#slot-name"
+            }
+          ]
+        }
+      ]
+    },
+    "decimal-slot": {
+      "patterns": [
+        {
+          "name": "meta.template.replacement.decimal.snomed-etl",
+          "begin": "(\\[\\[)\\s*(\\+)\\s*(dec)(?![A-Za-z0-9_])",
+          "end": "\\]\\]",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.template.begin.snomed-etl"
+            },
+            "2": {
+              "name": "keyword.operator.template-replacement.snomed-etl"
+            },
+            "3": {
+              "name": "storage.type.template-slot.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.template.end.snomed-etl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#number-constraint"
+            },
+            {
+              "include": "#slot-name"
+            }
+          ]
+        }
+      ]
+    },
+    "generic-expression-slot": {
+      "patterns": [
+        {
+          "name": "meta.template.replacement.expression.snomed-etl",
+          "begin": "(\\[\\[)\\s*(\\+)",
+          "end": "\\]\\]",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.template.begin.snomed-etl"
+            },
+            "2": {
+              "name": "keyword.operator.template-replacement.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.template.end.snomed-etl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#expression-constraint"
+            },
+            {
+              "include": "#slot-name"
+            }
+          ]
+        }
+      ]
+    },
+    "replacement-slot": {
+      "patterns": [
+        {
+          "include": "#expression-slot"
+        },
+        {
+          "include": "#token-slot"
+        },
+        {
+          "include": "#string-slot"
+        },
+        {
+          "include": "#integer-slot"
+        },
+        {
+          "include": "#decimal-slot"
+        },
+        {
+          "include": "#generic-expression-slot"
+        }
+      ]
+    },
+    "expression-constraint": {
+      "patterns": [
+        {
+          "name": "meta.expression-constraint.snomed-etl",
+          "begin": "\\(",
+          "end": "\\)",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.section.constraints.begin.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.constraints.end.snomed-etl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#ecl"
+            }
+          ]
+        }
+      ]
+    },
+    "token-constraint": {
+      "patterns": [
+        {
+          "name": "meta.token-set.snomed-etl",
+          "begin": "\\(",
+          "end": "\\)",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.section.constraints.begin.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.constraints.end.snomed-etl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#slot-token"
+            }
+          ]
+        }
+      ]
+    },
+    "string-constraint": {
+      "patterns": [
+        {
+          "name": "meta.string-set.snomed-etl",
+          "begin": "\\(",
+          "end": "\\)",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.section.constraints.begin.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.constraints.end.snomed-etl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#string"
+            }
+          ]
+        }
+      ]
+    },
+    "number-constraint": {
+      "patterns": [
+        {
+          "name": "meta.number-set.snomed-etl",
+          "begin": "\\(",
+          "end": "\\)",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.section.constraints.begin.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.constraints.end.snomed-etl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#bounded-number"
+            },
+            {
+              "include": "#range-operator"
+            }
+          ]
+        }
+      ]
+    },
+    "range-operator": {
+      "patterns": [
+        {
+          "match": "\\.\\.",
+          "name": "keyword.operator.range.snomed-etl"
+        }
+      ]
+    },
+    "bounded-number": {
+      "patterns": [
+        {
+          "match": "(?<![\\w#])([<>]?)(#)([+-]?)(0|[1-9][0-9]*)(\\.[0-9]+)?(?![\\w])",
+          "name": "meta.numeric-bound.snomed-etl",
+          "captures": {
+            "1": {
+              "name": "keyword.operator.exclusive-bound.snomed-etl"
+            },
+            "2": {
+              "name": "punctuation.definition.numeric.snomed-etl"
+            },
+            "3": {
+              "name": "keyword.operator.arithmetic.snomed-etl"
+            },
+            "4": {
+              "name": "constant.numeric.snomed-etl"
+            },
+            "5": {
+              "name": "constant.numeric.snomed-etl"
+            }
+          }
+        }
+      ]
+    },
+    "slot-token": {
+      "patterns": [
+        {
+          "match": "===|<<<",
+          "name": "keyword.operator.definition-status.snomed-etl"
+        },
+        {
+          "match": "\\b(?i:AND|OR|MINUS)\\b(?=\\s|/\\*)",
+          "name": "keyword.operator.logical.snomed-etl"
+        },
+        {
+          "match": "\\bR\\b",
+          "name": "keyword.operator.reverse-flag.snomed-etl"
+        },
+        {
+          "match": "\\^",
+          "name": "keyword.operator.member-of.snomed-etl"
+        },
+        {
+          "match": "!=|<=|>=|<<|<!|>>|>!|<|>|=",
+          "name": "keyword.operator.ecl.snomed-etl"
+        },
+        {
+          "match": ",",
+          "name": "keyword.operator.logical.and.snomed-etl"
+        }
+      ]
+    },
+    "ecl": {
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#string"
+        },
+        {
+          "include": "#term"
+        },
+        {
+          "include": "#ecl-cardinality"
+        },
+        {
+          "include": "#ecl-parentheses"
+        },
+        {
+          "include": "#ecl-group"
+        },
+        {
+          "include": "#numeric-value"
+        },
+        {
+          "include": "#sctid"
+        },
+        {
+          "include": "#ecl-logical"
+        },
+        {
+          "include": "#ecl-operators"
+        },
+        {
+          "include": "#ecl-punctuation"
+        }
+      ]
+    },
+    "ecl-parentheses": {
+      "patterns": [
+        {
+          "name": "meta.ecl.parenthesized.snomed-etl",
+          "begin": "\\(",
+          "end": "\\)",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.section.parens.begin.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.parens.end.snomed-etl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#ecl"
+            }
+          ]
+        }
+      ]
+    },
+    "ecl-group": {
+      "patterns": [
+        {
+          "name": "meta.ecl.attribute-group.snomed-etl",
+          "begin": "\\{",
+          "end": "\\}",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.section.group.begin.snomed-etl"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.group.end.snomed-etl"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#ecl"
+            }
+          ]
+        }
+      ]
+    },
+    "ecl-cardinality": {
+      "patterns": [
+        {
+          "match": "(\\[)\\s*((?:0|[1-9][0-9]*))\\s*(\\.\\.)\\s*(\\*|(?:0|[1-9][0-9]*))\\s*(\\])",
+          "name": "meta.ecl.cardinality.snomed-etl",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.cardinality.begin.snomed-etl"
+            },
+            "2": {
+              "name": "constant.numeric.cardinality.minimum.snomed-etl"
+            },
+            "3": {
+              "name": "keyword.operator.range.snomed-etl"
+            },
+            "4": {
+              "name": "constant.numeric.cardinality.maximum.snomed-etl"
+            },
+            "5": {
+              "name": "punctuation.definition.cardinality.end.snomed-etl"
+            }
+          }
+        }
+      ]
+    },
+    "ecl-logical": {
+      "patterns": [
+        {
+          "match": "\\b(?i:AND|OR|MINUS)\\b(?=\\s|/\\*)",
+          "name": "keyword.operator.logical.snomed-etl"
+        },
+        {
+          "match": ",",
+          "name": "keyword.operator.logical.and.snomed-etl"
+        }
+      ]
+    },
+    "ecl-operators": {
+      "patterns": [
+        {
+          "match": "\\bR\\b(?=\\s|/\\*)",
+          "name": "keyword.operator.reverse-flag.snomed-etl"
+        },
+        {
+          "match": "\\^",
+          "name": "keyword.operator.member-of.snomed-etl"
+        },
+        {
+          "match": "\\*",
+          "name": "constant.language.wildcard.snomed-etl"
+        },
+        {
+          "match": "!=|<=|>=|=",
+          "name": "keyword.operator.comparison.snomed-etl"
+        },
+        {
+          "match": "<<|<!|>>|>!|<|>",
+          "name": "keyword.operator.ecl.snomed-etl"
+        }
+      ]
+    },
+    "ecl-punctuation": {
+      "patterns": [
+        {
+          "match": ":",
+          "name": "punctuation.separator.refinement.snomed-etl"
+        },
+        {
+          "match": "(?<!\\.)\\.(?!\\.)",
+          "name": "keyword.operator.dotted-attribute.snomed-etl"
+        }
+      ]
+    }
+  }
+}
