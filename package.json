@@ -1,7 +1,7 @@
 {
   "name": "snomed-ct-languages",
   "displayName": "SNOMED CT Languages",
-  "description": "Snomed CT Languages for VS Code.",
+  "description": "Snomed CT Languages for VS Code. AI-assisted development.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.140.0"
@@ -46,5 +46,6 @@
         "path": "./syntaxes/snomed-etl.tmLanguage.json"
       }
     ]
-  }
+  },
+  "main": "./src/extension.js"
 }
