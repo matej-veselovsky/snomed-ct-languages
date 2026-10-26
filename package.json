@@ -9,6 +9,11 @@
   "categories": [
     "Programming Languages"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:matej-veselovsky/snomed-ct-languages.git"
+  },
+  "license": "Apache-2.0",
   "contributes": {
     "languages": [
       {
