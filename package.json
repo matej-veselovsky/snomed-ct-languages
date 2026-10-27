@@ -1,10 +1,10 @@
 {
   "name": "snomed-ct-languages",
   "displayName": "SNOMED CT Languages",
-  "description": "Snomed CT Languages for VS Code. AI-assisted development.",
-  "version": "0.0.1",
+  "description": "Snomed CT Languages for VS Code.",
+  "version": "0.0.2",
   "engines": {
-    "vscode": "^1.140.0"
+    "vscode": "^1.0.0"
   },
   "categories": [
     "Programming Languages"
@@ -53,5 +53,9 @@
       }
     ]
   },
-  "main": "./src/extension.js"
+  "main": "./src/extension.js",
+  "activationEvents": [
+    "onLanguage:snomed-scg",
+    "onLanguage:snomed-etl"
+  ]
 }
