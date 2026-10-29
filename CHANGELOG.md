@@ -4,6 +4,9 @@ All notable changes to the "snomed-ct-languages" extension will be documented in
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.3]
+- ECL support (brief and long form)
+
 ## [0.0.2]
 - less strict vscode engine requirement
 

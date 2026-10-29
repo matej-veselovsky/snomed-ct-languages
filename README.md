@@ -2,7 +2,7 @@
 
 ## Content
 
-Basic VS Code extension for SNOMED CT Languages - compositional grammar and expression templating syntax for now. Performs basic syntax validation. No conformity to concept model checked.
+Basic VS Code extension for SNOMED CT Languages - compositional grammar, expression constraint language and expression template language. Performs basic syntax validation. No conformity to concept model checked.
 
 AI-assisted development.
 

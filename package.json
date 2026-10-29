@@ -2,7 +2,7 @@
   "name": "snomed-ct-languages",
   "displayName": "SNOMED CT Languages",
   "description": "Snomed CT Languages for VS Code.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.0.0"
   },
@@ -31,11 +31,22 @@
       {
         "id": "snomed-etl",
         "aliases": [
-          "SNOMED CT Expression Template Syntax",
+          "SNOMED CT Expression Template Language",
           "snomed-etl"
         ],
         "extensions": [
           "etl"
+        ],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "snomed-ecl",
+        "aliases": [
+          "SNOMED CT Expression Constraint Language",
+          "snomed-ecl"
+        ],
+        "extensions": [
+          "ecl"
         ],
         "configuration": "./language-configuration.json"
       }
@@ -50,12 +61,18 @@
         "language": "snomed-etl",
         "scopeName": "source.snomed-etl",
         "path": "./syntaxes/snomed-etl.tmLanguage.json"
+      },
+      {
+        "language": "snomed-ecl",
+        "scopeName": "source.snomed-ecl",
+        "path": "./syntaxes/snomed-ecl.tmLanguage.json"
       }
     ]
   },
   "main": "./src/extension.js",
   "activationEvents": [
     "onLanguage:snomed-scg",
-    "onLanguage:snomed-etl"
+    "onLanguage:snomed-etl",
+    "onLanguage:snomed-ecl"
   ]
 }

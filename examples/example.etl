@@ -16,7 +16,7 @@
 					[[0..1]] 118168003 | Specimen source morphology (attribute) | = [[+id (<< 49755003 | Morphologically abnormal structure (morphologic abnormality) |) @SpecimenSourceMorphology]],
 					[[0..1]] 118169006 | Specimen source topography (attribute) | = [[+id (<< 442083009 | Anatomical or acquired body structure (body structure) |) @SpecimenSourceTopography]],
 					[[0..1]] 370133003 | Specimen substance (attribute) | = [[+id (<< 105590001 | Substance (substance) | OR << 260787004 | Physical object (physical object) | OR << 373873005 | Pharmaceutical / biologic product (product) |) @SpecimenSubstance]],
-					[[0..1]] 118170007 | Specimen source identity (attribute) | = [[+id (<< 125676002 | Person (person) | OR << 133928008 | Community (social concept) | OR << 260787004 | Physical object (physical object) | OR << 276339004 | Environment (environment) | OR << 35359004 | Family (social concept) |) @SpecimenSourceIdentity]],
+					[[0..1]] 118170007 | Specimen source identity (attribute) | = [[+id (<< 125676002 | Person (person) | OR << 133928008 | Community (social concept) | OR << 260787004 | Physical object (physical object) | OR << 276339004 | Environment (environment) | OR << 35359004 | Family (social concept) |) @SpecimenSourceIdentity]]
 				}
 			)
 		}

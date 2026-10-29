@@ -1,0 +1,283 @@
+{
+  "name": "SNOMED CT Expression Constraint Language",
+  "scopeName": "source.snomed-ecl",
+  "patterns": [
+    {
+      "include": "#expression"
+    }
+  ],
+  "repository": {
+    "expression": {
+      "patterns": [
+        {
+          "include": "#block-comment"
+        },
+        {
+          "include": "#concept-term"
+        },
+        {
+          "include": "#quoted-string"
+        },
+        {
+          "include": "#cardinality"
+        },
+        {
+          "include": "#attribute-group"
+        },
+        {
+          "include": "#parenthesized-expression"
+        },
+        {
+          "include": "#numeric-value"
+        },
+        {
+          "include": "#long-form-hierarchy-operators"
+        },
+        {
+          "include": "#symbolic-comparison-operators"
+        },
+        {
+          "include": "#symbolic-hierarchy-operators"
+        },
+        {
+          "include": "#member-of"
+        },
+        {
+          "include": "#reverse-flag"
+        },
+        {
+          "include": "#logical-operators"
+        },
+        {
+          "include": "#wildcard"
+        },
+        {
+          "include": "#concept-id"
+        },
+        {
+          "include": "#punctuation"
+        }
+      ]
+    },
+    "block-comment": {
+      "comment": "ABNF: comment = /* ... */; comments can span lines and are whitespace outside terms/strings.",
+      "name": "comment.block.snomed-ecl",
+      "begin": "/\\*",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.comment.begin.snomed-ecl"
+        }
+      },
+      "end": "\\*/",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.comment.end.snomed-ecl"
+        }
+      }
+    },
+    "concept-term": {
+      "comment": "ABNF: conceptId [ws | ws term ws |]. Never interpret operators or comment markers within a display term.",
+      "name": "string.unquoted.term.snomed-ecl",
+      "begin": "\\|",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.snomed-ecl"
+        }
+      },
+      "end": "\\|",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.snomed-ecl"
+        }
+      }
+    },
+    "quoted-string": {
+      "comment": "ABNF: stringValue permits backslash-escaped quote and backslash only.",
+      "name": "string.quoted.double.snomed-ecl",
+      "begin": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.snomed-ecl"
+        }
+      },
+      "end": "\"",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.snomed-ecl"
+        }
+      },
+      "patterns": [
+        {
+          "name": "constant.character.escape.snomed-ecl",
+          "match": "\\\\[\\\\\"]"
+        },
+        {
+          "name": "invalid.illegal.escape.snomed-ecl",
+          "match": "\\\\(?![\\\\\"])"
+        }
+      ]
+    },
+    "cardinality": {
+      "comment": "Both [0..*] and [0 to many] are handled; 'to' and 'many' only apply here.",
+      "name": "meta.cardinality.snomed-ecl",
+      "begin": "\\[",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.section.cardinality.begin.snomed-ecl"
+        }
+      },
+      "end": "\\]",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.cardinality.end.snomed-ecl"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#block-comment"
+        },
+        {
+          "name": "keyword.operator.range.snomed-ecl",
+          "match": "\\.\\.|(?i:to)(?![A-Za-z_])"
+        },
+        {
+          "name": "constant.language.unbounded.snomed-ecl",
+          "match": "\\*|(?i:many)(?![A-Za-z_])"
+        },
+        {
+          "name": "constant.numeric.cardinality.snomed-ecl",
+          "match": "(?<![0-9])(?:0|[1-9][0-9]*)(?![0-9])"
+        }
+      ]
+    },
+    "attribute-group": {
+      "comment": "ABNF: eclAttributeGroup = [cardinality] { eclAttributeSet }.",
+      "name": "meta.attribute-group.snomed-ecl",
+      "begin": "\\{",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.section.attribute-group.begin.snomed-ecl"
+        }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.attribute-group.end.snomed-ecl"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#expression"
+        }
+      ]
+    },
+    "parenthesized-expression": {
+      "comment": "Both subExpressionConstraint and subRefinement can contain parenthesized ECL; nest recursively.",
+      "name": "meta.group.snomed-ecl",
+      "begin": "\\(",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.section.group.begin.snomed-ecl"
+        }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.group.end.snomed-ecl"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#expression"
+        }
+      ]
+    },
+    "numeric-value": {
+      "comment": "ABNF: # ws numericValue. A begin/end region allows comments and newlines between # and the signed decimal/integer.",
+      "name": "meta.numeric-value.snomed-ecl",
+      "begin": "#",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.numeric.snomed-ecl"
+        }
+      },
+      "end": "(?<=[0-9])(?![0-9.])|(?=[,}\\]\\)])",
+      "patterns": [
+        {
+          "include": "#block-comment"
+        },
+        {
+          "name": "constant.numeric.snomed-ecl",
+          "match": "[+-]?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?(?![0-9.])"
+        }
+      ]
+    },
+    "long-form-hierarchy-operators": {
+      "comment": "Case insensitive long spellings require mws after the keyword (whitespace/comment).",
+      "name": "keyword.operator.hierarchy.snomed-ecl",
+      "match": "(?i:descendantOrSelfOf|ancestorOrSelfOf|descendantOf|ancestorOf|childOf|parentOf)(?=[ \\t]|/\\*|$)"
+    },
+    "symbolic-comparison-operators": {
+      "comment": "The single < and > tokens are numeric comparisons when followed by # (possibly with inline comments).",
+      "name": "keyword.operator.comparison.snomed-ecl",
+      "match": "<=|>=|!=|<>|=|[<>](?=[ \\t]*(?:/\\*.*?\\*/[ \\t]*)*#)"
+    },
+    "symbolic-hierarchy-operators": {
+      "comment": "ABNF: descendantOf <, descendantOrSelfOf <<, childOf <!, ancestorOf >, ancestorOrSelfOf >>, parentOf >!.",
+      "name": "keyword.operator.hierarchy.snomed-ecl",
+      "match": "<<|<!|>>|>!|[<>]"
+    },
+    "member-of": {
+      "comment": "Brief ^ and case-insensitive long memberOf; ws after memberOf is optional in ABNF.",
+      "name": "keyword.operator.member-of.snomed-ecl",
+      "match": "\\^|(?i:memberOf)(?![A-Za-z_])"
+    },
+    "reverse-flag": {
+      "comment": "Brief R and long case-insensitive reverseOf in eclAttribute.",
+      "name": "keyword.other.reverse.snomed-ecl",
+      "match": "(?i:reverseOf)(?![A-Za-z_])|(?i:R)(?=[ \\t]|/\\*|[0-9<>()^*]|$)"
+    },
+    "logical-operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.logical.and.snomed-ecl",
+          "match": ",|(?i:and)(?=[ \\t]|/\\*|$)"
+        },
+        {
+          "name": "keyword.operator.logical.or.snomed-ecl",
+          "match": "(?i:or)(?=[ \\t]|/\\*|$)"
+        },
+        {
+          "name": "keyword.operator.logical.exclusion.snomed-ecl",
+          "match": "(?i:minus)(?=[ \\t]|/\\*|$)"
+        },
+        {
+          "name": "keyword.operator.comparison.snomed-ecl",
+          "match": "(?i:not)(?=[ \\t]*=|/\\*|$)"
+        }
+      ]
+    },
+    "wildcard": {
+      "comment": "Brief * and long any, in focus-concept positions (many is handled in cardinality).",
+      "name": "constant.language.wildcard.snomed-ecl",
+      "match": "\\*|(?i:any)(?![A-Za-z_0-9])"
+    },
+    "concept-id": {
+      "comment": "sctId = digitNonZero 5*17(digit), i.e. 6 through 18 digits, excluding leading zero.",
+      "name": "constant.numeric.concept-id.snomed-ecl",
+      "match": "(?<![0-9])[1-9][0-9]{5,17}(?![0-9])"
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "name": "keyword.operator.refinement.snomed-ecl",
+          "match": ":"
+        },
+        {
+          "name": "punctuation.accessor.dot.snomed-ecl",
+          "match": "(?<!\\.)\\.(?!\\.)"
+        }
+      ]
+    }
+  }
+}
